@@ -1,0 +1,153 @@
+ $bg-color: #1A1B1D;
+ body {
+     background: $bg-color;
+     color: white;
+}
+
+ .menu {
+     padding: 0px;
+}
+ .navbar {
+     margin: 0px;
+     width: 100%;
+     @media(max-width:500px) {
+         background: black;
+    }
+     .nav-link {
+         text-transform: uppercase;
+         @media(max-width:500px) {
+             color: grey !important;
+        }
+    }
+     .nav-item {
+         padding: 0 1vw;
+    }
+}
+ .category {
+     margin-top:50px;
+     h4 {
+         letter-spacing: 3px;
+    }
+}
+ img.item-image {
+     width: 100%;
+     padding: 10px;
+}
+.item-info {
+	display: flex;
+	justify-content:center;
+}
+.item-info-entity {
+	margin: 4%;
+}
+ .old-price {
+     font-size: 30px;
+     text-decoration: line-through;
+     color: red;
+}
+
+ .price {
+     font-size: 30px;
+}
+ div.item {
+     border: 1px lightgray solid;
+     height: auto;
+}
+ div.item:hover {
+     border: 2px darkgray solid;
+}
+ a.item-name {
+ 	display: block;
+     font-weight: bold;
+     font-size: 32px;
+     text-decoration: none;
+     color: #ebc034;
+     margin: 0;
+}
+
+ button.buy-btn {
+     background-color: black;
+     color: white;
+     border: none;
+     width: 20%;
+}
+ button.buy-btn:hover {
+     background-color: gray;
+     cursor:pointer;
+}
+ #page-footer {
+     background-color: black;
+}
+ .bg-modal {
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.7);
+     position: fixed;
+     z-index: 999;
+     top: 0;
+     display: flex;
+     justify-content:center;
+     align-items: center;
+     display: none;
+}
+ .modal-content {
+     width: 500px;
+     height: auto;
+     background-color: #505050;
+     border-radius: 5px;
+     position: relative;
+}
+ .close {
+     color:black;
+     font-size: 32px;
+     position: absolute;
+     top: 0;
+     right: 14px;
+     transform: rotate(45deg);
+     cursor: pointer;
+}
+ .cart-header {
+     text-decoration: underline;
+}
+ .modal-footer {
+ 	margin-top:5px;
+     display: block;
+     width: 100%;
+}
+ #order-btn {
+     margin: 0 15%;
+     display: block;
+     width: 70%;
+     background: green;
+}
+ .delete-btn {
+ 	padding: 3px 10px !important;
+     background: red !important;
+     width: 40% !important;
+}
+
+.quantity-block {
+	margin:5px 0;
+	text-align: center;
+}
+
+img.prod-img {
+	width: 50px;
+	height: 50px;
+}
+
+.prod-name {
+	margin: 5px;
+}
+input.quantity {
+	width:40px;
+	margin-top: 5px;
+}
+
+#total {
+	display: inline;
+}
+
+.modal-footer>span {
+	font-size: 32px;
+}
