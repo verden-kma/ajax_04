@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
  $bg-color: #1A1B1D;
  body {
      background: $bg-color;
@@ -120,11 +121,11 @@
      width: 70%;
      background: green;
 }
- .delete-btn {
+/* .delete-btn {
  	padding: 3px 10px !important;
      background: red !important;
      width: 40% !important;
-}
+}*/
 
 .quantity-block {
 	margin:5px 0;
