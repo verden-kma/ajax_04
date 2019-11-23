@@ -1,12 +1,13 @@
-//import 'jquery';
-if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready);
+/*
+if (document.initState == 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
 } else {
-    ready();
+    init();
 }
 console.log('interacted');
-
-function ready() {
+*/
+function init() {
+    console.log('start interact');
         $("#cart-btn").click(function() {
         $(".bg-modal")[0].style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -23,36 +24,33 @@ function ready() {
         removeProdButtons[i].click(removeProd);
     }
 
-    // Tron check
     var suspiciousQuantity = $('.quantity');
     for (var i = 0; i < suspiciousQuantity.length; i++) {
         var inputQuantity = suspiciousQuantity[i];
-        inputQuantity.change(validateQuantity); // click!!!('change', 
+        inputQuantity.change(validateQuantity);
     }
 
-    // add products to cart
-    var newComersBtn = $('.buy-btn');
-    console.log($('.buy-btn').length, "$('.buy-btn')");
+    var newComersBtn = document.getElementsByClassName('buy-btn');
     for (var i = 0; i < newComersBtn.length; i++) {
-        newComersBtn[i].click(function(event) {
-console.log("add action");
-
+        newComersBtn[i].addEventListener('click', function(event) {
             var card = event.target.parentElement.parentElement;
-            var price = card.querySelector('#price')[0].innerText;
-            var name = card.querySelector('#item-name')[0].innerText;
-            var imgSrc = card.querySelector('#item-image')[0].src;
+            var price = card.getElementsByClassName('price')[0].innerText;
+            var name = card.getElementsByClassName('item-name')[0].innerText;
+            var imgSrc = card.getElementsByClassName('item-image')[0].src;
             addProduct(name, price, imgSrc);
             updateTotal();
         });
     }
     // add purchase action
-    var purchase = $('#order-btn');
-    purchase.click(makePurchase);
+    var purchase = document.getElementById('order-btn');
+    console.log(purchase)
+    purchase.addEventListener("click", makePurchase);//!!!
+    //purchase.click(makePurchase);
 }
 
-function makePurchase() {
+function makePurchase(event) {
     alert("Thank you.");
-    var prods = $('.products')[0];
+    var prods = document.getElementsByClassName('products')[0];
     while (prods.hasChildNodes()) {
         prods.removeChild(prods.firstChild);
     }
@@ -63,11 +61,11 @@ function addProduct(name, price, imgSrc) {
     var newProd = document.createElement('div');
     newProd.classList.add('container');
     newProd.classList.add('markup-goods');
-    var products = $('.products')[0];
-    var names = $('.prod-name');
+    var products = document.getElementsByClassName('products')[0];
+    var names = document.getElementsByClassName('prod-name');
     for (var i = 0; i < names.length; i++) {
         if (names[i].innerText == name) {
-            alert("Such item is already added.");
+            alert("Such item is alinit added.");
             return;
         }
     }
@@ -86,8 +84,9 @@ function addProduct(name, price, imgSrc) {
 `
     products.append(newProd);
     // add listeners to this devare button as it is not listened by default
-    newProd.querySelector('#devare-btn')[0].click(removeProd);
-    newProd.querySelector('#quantity')[0].change(validateQuantity);
+    // console.log(newProd.querySelector('.devare-btn')[0]);
+    newProd.getElementsByClassName('devare-btn')[0].addEventListener('click', removeProd);
+    newProd.getElementsByClassName('quantity')[0].addEventListener('change', validateQuantity);
 }
 
 function removeProd(event) {
@@ -106,19 +105,17 @@ function validateQuantity(event) {
     updateTotal();
 }
 
-
-
 function updateTotal() {
-    var prods = $('.products')[0];
-    var containers = prods.querySelector('.markup-goods');
+    var prods = document.getElementsByClassName('products')[0];
+    var containers = prods.getElementsByClassName('markup-goods');
     // nothing was added to cart
     if (containers == null) return;
     var remainingTotal = 0;
     for (var i = 0; i < containers.length; i++) {
         var card = containers[i];
 
-        var priceElement = card.querySelector('.price')[0];
-        var quantityElement = card.querySelector('.quantity')[0];
+        var priceElement = card.getElementsByClassName('price')[0];
+        var quantityElement = card.getElementsByClassName('quantity')[0];
 
         var price = parseFloat(priceElement.innerText.replace('₴', ''));
         var quantity = quantityElement.value;
@@ -127,3 +124,5 @@ function updateTotal() {
     remainingTotal = Math.round(remainingTotal * 100) / 100;
     document.getElementById('total').innerText = "₴" + remainingTotal;
 }
+
+export {init as initInteraction};

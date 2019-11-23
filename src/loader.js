@@ -1,4 +1,4 @@
-//import 'jquery';
+/*
 var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -7,8 +7,7 @@ xhttp.onreadystatechange = function() {
 };
 xhttp.open("GET", "../assets/main_page_markup.json", true);
 xhttp.send();
-console.log('loaded');
-
+*/
 function loadContent(categories) {
 
 	var block = document.getElementById("backpacks");
@@ -40,6 +39,7 @@ function loadContent(categories) {
 		var newPrice = categories.female[i].newPrice;
 		addItem(name, imgSrc, onSale, oldPrice, newPrice, block);
 	}
+	console.log('loaded');
 }
 
 
@@ -70,3 +70,5 @@ function addItem(name, imgSrc, onSale, oldPrice, price, block) {
 	`
 	block.append(newItem);
 }
+
+export {loadContent};
