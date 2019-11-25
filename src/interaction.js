@@ -1,13 +1,4 @@
-/*
-if (document.initState == 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-} else {
-    init();
-}
-console.log('interacted');
-*/
 function init() {
-    console.log('start interact');
         $("#cart-btn").click(function() {
         $(".bg-modal")[0].style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -43,7 +34,6 @@ function init() {
     }
     // add purchase action
     var purchase = document.getElementById('order-btn');
-    console.log(purchase)
     purchase.addEventListener("click", makePurchase);//!!!
     //purchase.click(makePurchase);
 }

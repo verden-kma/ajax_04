@@ -1,13 +1,5 @@
+
 /*
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        loadContent(JSON.parse(xhttp.responseText));
-    }
-};
-xhttp.open("GET", "../assets/main_page_markup.json", true);
-xhttp.send();
-*/
 function loadContent(categories) {
 
 	var block = document.getElementById("backpacks");
@@ -39,9 +31,8 @@ function loadContent(categories) {
 		var newPrice = categories.female[i].newPrice;
 		addItem(name, imgSrc, onSale, oldPrice, newPrice, block);
 	}
-	console.log('loaded');
 }
-
+*/
 
 
 function addItem(name, imgSrc, onSale, oldPrice, price, block) {
