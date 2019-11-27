@@ -1,25 +1,23 @@
-function loadCategory(categoryID) {
-    $.ajax({
-        method: "GET",
-        cache: false,
-        url: `https://nit.tron.net.ua/api/product/list/category/${categoryID}`,
-        success: (items) => {
-            let content = $("#content");
-            content.empty();
-            content.append(
+function loadItems(urlAddress) {
+	$.ajax({
+		method: "GET",
+		cache: false,
+		url: urlAddress,
+		success: (items) => {
+			let content = $("#content");
+			content.empty();
+			content.append(
                 $(`<div class="container-fluid category" >
         	<div class="row">
         	</div>
     	</div>`));
-            let container = content.children(":first").children(":first")
-            console.log("INNER_1: " + content.html())
+			let container = content.children(":first").children(":first");
 
-            $.each(items, (i, item) => {
-                addItem(container, item.name, item.image_url, item.description, item.price, item.special_price);
-            });
-            console.log("INNER_2: " + content.html())
-        }
-    });
+			$.each(items, (i, item) => {
+				addItem(container, item.name, item.image_url, item.description, item.price, item.special_price);
+			});
+		}
+	});
 }
 
 function addItem(block, name, imgSrc, description, oldPrice, price) {
@@ -49,6 +47,4 @@ function addItem(block, name, imgSrc, description, oldPrice, price) {
     //console.log("out");
 }
 
-export {
-    loadCategory
-};
+export {loadItems};
