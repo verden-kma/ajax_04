@@ -67,13 +67,19 @@ img.item-image {
 }
 
 .old-price {
-    font-size: 30px;
+    font-size: 25px;
     text-decoration: line-through;
-    color: red;
+    text-decoration-color: red;
+    color: grey;
 }
 
 .price {
+    font-size: 25px;
+}
+
+.special-price {
     font-size: 30px;
+    color: red;
 }
 
 div.item {
@@ -192,11 +198,33 @@ input.quantity {
     align-items: center;
 }
 
-#category-span {
+.navigation {
     font-size: 40px;
-    color: red;
+    color: #900;
+    margin: 55px 20px;
 }
 
-.category-name {
-    //TODO
+.category-div {
+    margin-left: 50px;
+}
+
+.category-list {
+    list-style: square;
+}
+
+.category-link:hover {
+text-decoration: none;
+}
+
+.category-description{
+    font-size: 20px;
+    color: darkgray;
+}
+
+.item-desc {
+    float: left;
+}
+
+.item-desc pre {
+        color: white;
 }

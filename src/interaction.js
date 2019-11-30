@@ -1,5 +1,10 @@
+import {loadProduct} from "./loadProduct"
+import {loadItems} from "./loadItems"
+
 function init() {
+    // alert("init started");
         $("#cart-btn").click(function() {
+            console.log('Opening of cart');
         $(".bg-modal")[0].style.display = 'flex';
         document.body.style.overflow = 'hidden';
     });
@@ -9,89 +14,115 @@ function init() {
         document.body.style.overflow = 'visible';
     });
 
-    // devare buttons
-    var removeProdButtons = $('.devare-btn');
-    for (var i = 0; i < removeProdButtons.length; i++) {
-        removeProdButtons[i].click(removeProd);
-    }
 
-    var suspiciousQuantity = $('.quantity');
-    for (var i = 0; i < suspiciousQuantity.length; i++) {
-        var inputQuantity = suspiciousQuantity[i];
-        inputQuantity.change(validateQuantity);
-    }
+    // $.each($('.delete-btn'), (i, removeBtn) => {
+    //     console.log(removeBtn);
 
-    var newComersBtn = document.getElementsByClassName('buy-btn');
-    for (var i = 0; i < newComersBtn.length; i++) {
-        newComersBtn[i].addEventListener('click', function(event) {
-            var card = event.target.parentElement.parentElement;
-            var price = card.getElementsByClassName('price')[0].innerText;
-            var name = card.getElementsByClassName('item-name')[0].innerText;
-            var imgSrc = card.getElementsByClassName('item-image')[0].src;
-            addProduct(name, price, imgSrc);
-            updateTotal();
-        });
-    }
+    //     $(removeBtn).click(removeProd);
+    // });
+
+    // $('.delete-btn').on('click', removeProd);
+
+    $.each($('.quantity'), (i, inputField) => {
+        inputField.change(validateQuantity);
+    });
+
+    // addButtonListeners();
+
     // add purchase action
-    var purchase = document.getElementById('order-btn');
-    purchase.addEventListener("click", makePurchase);//!!!
-    //purchase.click(makePurchase);
+    $("#order-btn").click(makePurchase);
+    updateTotal();
 }
 
 function makePurchase(event) {
     alert("Thank you.");
-    var prods = document.getElementsByClassName('products')[0];
-    while (prods.hasChildNodes()) {
-        prods.removeChild(prods.firstChild);
-    }
+    $(".products").empty();
     updateTotal();
 }
 
-function addProduct(name, price, imgSrc) {
+function addProduct(name, price, imgSrc, id) {
+    $.each($('.item-card'), (i, card) => {
+    if (card.id == id) {
+        alert("Such item is already added.");
+        return;
+    }
+    });
     var newProd = document.createElement('div');
     newProd.classList.add('container');
     newProd.classList.add('markup-goods');
     var products = document.getElementsByClassName('products')[0];
-    var names = document.getElementsByClassName('prod-name');
-    for (var i = 0; i < names.length; i++) {
-        if (names[i].innerText == name) {
-            alert("Such item is alinit added.");
-            return;
-        }
-    }
     newProd.innerHTML = `
-    <div class="row">
+    <div id="${id}" class="row item-card">
         <div class="prod col-5">
             <img class="prod-img" src="${imgSrc}" alt="prod-img">
             <span class="prod-name">${name}</span>
         </div>
-        <span class="col-3 price">${price}</span>
+        <span class="col-3 price">${parseInt(price)}</span>
         <div class="col-4 quantity-block">
             <input class="quantity" type="number" value="1">
-            <button class="btn btn-danger devare-btn">del</button>
+            <button class="btn btn-danger delete-btn">del</button>
         </div>
     </div>
 `
     products.append(newProd);
     // add listeners to this devare button as it is not listened by default
-    // console.log(newProd.querySelector('.devare-btn')[0]);
-    newProd.getElementsByClassName('devare-btn')[0].addEventListener('click', removeProd);
-    newProd.getElementsByClassName('quantity')[0].addEventListener('change', validateQuantity);
+    // newProd.getElementsByClassName('delete-btn')[0].addEventListener('click', (event) => { console.log("from addProduct"); removeProd(event)});
+    // newProd.getElementsByClassName('quantity')[0].addEventListener('change', validateQuantity);
+    $(newProd).find('.quantity').on('change', validateQuantity);
+}
+
+function addToCart(event) {
+    //console.log(`https://nit.tron.net.ua/api/product/${event.target.parentElement.parentElement.id}`);
+    /*let card = event.target.parentElement.parentElement;
+    let price = card.getElementsByClassName('price')[0].innerText;
+    let name = card.getElementsByClassName('item-name')[0].innerText;
+    let imgSrc = card.getElementsByClassName('item-image')[0].src;
+    let id = card.id; */
+    
+    //let prodID = event.target.parentElement.parentElement.id;
+    $.ajax({
+        mathod: "GET",
+        cache: false,
+        url: `https://nit.tron.net.ua/api/product/${event.target.parentElement.parentElement.id}`,
+        success: (prodData) => {
+        addProduct(prodData.name, prodData.price, prodData.image_url, prodData.id)
+        updateTotal();
+}
+    });
+    
+
 }
 
 function removeProd(event) {
-    var button = event.target;
-    button.parentElement.parentElement.parentElement.remove();
+    console.log("removeProd");
+    event.target.parentElement.parentElement.parentElement.remove();
     updateTotal();
 }
 
+function openProduct(event) {
+    console.log("openProduct");
+    let categoryInfo = $(".categoryInfo");
+    console.log(categoryInfo[0].innerText, categoryInfo[0].id)
+    loadProduct(`https://nit.tron.net.ua/api/product/${event.target.parentElement.id}`, categoryInfo[0].innerText, categoryInfo[0].id)
+}
+
+function reopenCategory(event) {
+    let category = $(".reopen-category")[0];
+    if (category.id == -1) {
+        loadItems("https://nit.tron.net.ua/api/product/list");
+    }
+    else {
+        console.log(`https://nit.tron.net.ua/api/product/list/category/${category.id}`)
+        loadItems(`https://nit.tron.net.ua/api/product/list/category/${category.id}`, category.innerText, category.id);
+    }
+}
 
 function validateQuantity(event) {
     var quant = event.target;
     if (isNaN(quant.value) || quant.value <= 0) {
         quant.value = 1;
-        console.log('https://ukmaedu-my.sharepoint.com/:i:/g/personal/andrii_rozhko_ukma_edu_ua/EYHNkNgMeaxMgfnkdHrNJIIBSXylfArkCdG2JDh23GNqdg?e=vYa8ef');
     }
+    quant.value = parseInt(Math.round(quant.value));
     updateTotal();
 }
 
@@ -115,4 +146,10 @@ function updateTotal() {
     document.getElementById('total').innerText = "₴" + remainingTotal;
 }
 
-export {init as initInteraction};
+// при спрацьовуванні слухача, подія піднімається до рівня документа
+    $(document).on('click', '.delete-btn', removeProd);
+    $(document).on('click', '.buy-btn', addToCart);
+    $(document).on('click', '.clickable', openProduct);
+    $(document).on('click', '.reopen-category', reopenCategory);
+
+export {init as interaction};
