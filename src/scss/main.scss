@@ -240,6 +240,9 @@ text-decoration: none;
     justify-content: center;
 }
 
-#login-model {
-    width:100%;
+
+@media screen and (max-width: 700px) {
+    .modal-content{
+        max-width: 350px;
+    }
 }
