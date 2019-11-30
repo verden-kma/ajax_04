@@ -9,25 +9,14 @@ function init() {
         document.body.style.overflow = 'hidden';
     });
 
-    $('.close').click(function() {
+    $('.closeBtn').click(function() {
         $('.bg-modal')[0].style.display = 'none';
         document.body.style.overflow = 'visible';
     });
 
-
-    // $.each($('.delete-btn'), (i, removeBtn) => {
-    //     console.log(removeBtn);
-
-    //     $(removeBtn).click(removeProd);
-    // });
-
-    // $('.delete-btn').on('click', removeProd);
-
     $.each($('.quantity'), (i, inputField) => {
         inputField.change(validateQuantity);
     });
-
-    // addButtonListeners();
 
     // add purchase action
     $("#order-btn").click(makePurchase);
@@ -35,18 +24,75 @@ function init() {
 }
 
 function makePurchase(event) {
-    alert("Thank you.");
+    var name = $("#name").val();
+    var phone = $("#phone").val();
+    var email = $("#email").val();
+    // username must start with a letter and contain at least 1 character
+    if (!name.match("^[A-Za-z]\\w*$")) {//"^[A-Za-z]\w*$"
+        alert("incorrect name");
+        return;
+    }
+    // (+385) 123 456 7890  most countries have <= than 3 digits for phone code
+    if (!phone.match("^(\\+\\d{1,3})?\\d{10}$")){ //^(\+\\d{1,3})?\\d{10}$
+        alert("incorrect phone number");
+        return;
+    }
+    // andrii.rozhko@ukma.edu.ua or a@b.c
+    if (!email.match("^\\w+(\\.\\w+)*@(\\w+\\.)*\\w+\\.\\w+$")){
+        alert("incorrect email address");
+        return;
+    }
+    var ordered = "";
+    $.each($(".item-card"), (i, prod) => {
+        var quantity = $(prod).find(".quantity")[0].value;
+
+ordered += `products[${quantity}]=${prod.id}&`
+    });
+    ordered = ordered.substring(0, ordered.length - 1);
+    
+    var outData = 'token=y2CdmtQz_km1L_K5xVYU' + '&name=' + name 
+    + '&phone=' + phone + '&email=' + email + '&' + ordered;
+
+if (ordered == "") {
+    alert("error! the cart must not be empty.")
+    return;
+}
+
+console.log(outData);
+
+    $.ajax({
+        type: "POST",
+        cache: false,
+        url: "https://nit.tron.net.ua/api/order/add",
+        data: outData+"wvvwd",
+        success: (response) => { 
+            if (response.errors != null) {
+                let errorMsg = "incorrect input!";
+                if (response.errors.name != null) errorMsg += "\nincorrect username";
+                if (response.errors.phone != null) errorMsg += "\nincorrect phone number";
+                if (response.errors.email != null) errorMsg += "\nincorrect email";
+                alert(errorMsg);
+            }
+            else alert("Thank you!");
+            console.log(response)
+    },
+        error: () => alert("Error has occured!")
+    });
+
     $(".products").empty();
     updateTotal();
 }
 
 function addProduct(name, price, imgSrc, id) {
+    let isDuplicate = false;
     $.each($('.item-card'), (i, card) => {
     if (card.id == id) {
         alert("Such item is already added.");
+        isDuplicate = true;
         return;
     }
     });
+    if (isDuplicate) return;
     var newProd = document.createElement('div');
     newProd.classList.add('container');
     newProd.classList.add('markup-goods');
@@ -65,27 +111,20 @@ function addProduct(name, price, imgSrc, id) {
     </div>
 `
     products.append(newProd);
-    // add listeners to this devare button as it is not listened by default
     // newProd.getElementsByClassName('delete-btn')[0].addEventListener('click', (event) => { console.log("from addProduct"); removeProd(event)});
     // newProd.getElementsByClassName('quantity')[0].addEventListener('change', validateQuantity);
     $(newProd).find('.quantity').on('change', validateQuantity);
 }
 
 function addToCart(event) {
-    //console.log(`https://nit.tron.net.ua/api/product/${event.target.parentElement.parentElement.id}`);
-    /*let card = event.target.parentElement.parentElement;
-    let price = card.getElementsByClassName('price')[0].innerText;
-    let name = card.getElementsByClassName('item-name')[0].innerText;
-    let imgSrc = card.getElementsByClassName('item-image')[0].src;
-    let id = card.id; */
-    
-    //let prodID = event.target.parentElement.parentElement.id;
+    alert("added");
     $.ajax({
         mathod: "GET",
         cache: false,
         url: `https://nit.tron.net.ua/api/product/${event.target.parentElement.parentElement.id}`,
         success: (prodData) => {
-        addProduct(prodData.name, prodData.price, prodData.image_url, prodData.id)
+        var price = prodData.special_price == null ? price = prodData.price : prodData.special_price;
+        addProduct(prodData.name, price, prodData.image_url, prodData.id)
         updateTotal();
 }
     });

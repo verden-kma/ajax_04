@@ -20,7 +20,7 @@ function loadItems(urlAddress, categoryName = "full list", cateroryID = -1) {
 				addItem(container, item.name, item.image_url, item.description, item.price, item.special_price, item.id);
 			});
 
-			let returnButton = $(`<a id="return-category" href="#"><h3 class="navigation">Categories</h3></a>`);
+			let returnButton = $(`<a class="return-category" href="#"><h3 class="navigation">Categories</h3></a>`);
 			returnButton.click((event) => loadMain())
 			content.prepend(returnButton);
 			content.prepend($(`<h3 id="${cateroryID}" class="text-center categoryInfo">${categoryName}</h3>`))			

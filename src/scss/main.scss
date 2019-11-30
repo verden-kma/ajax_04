@@ -139,7 +139,7 @@ button.buy-btn:hover {
     position: relative;
 }
 
-.close {
+.closeBtn {
     color: black;
     font-size: 32px;
     position: absolute;
@@ -213,7 +213,7 @@ input.quantity {
     list-style: square;
 }
 
-.category-link:hover {
+.category-link:hover, .return-category:hover {
 text-decoration: none;
 }
 
@@ -223,9 +223,23 @@ text-decoration: none;
 }
 
 .item-desc {
-    float: left;
+    font-size: 25px;
+    word-wrap:break-word;
+    margin-left: 2vw;
 }
 
-#return-category:hover {
+#login-save {
+    border-radius: 24%;
     text-decoration: none;
+    padding: 5px 20px;
+    border: none;
+}
+
+#login-footer {
+    display: flex;
+    justify-content: center;
+}
+
+#login-model {
+    width:100%;
 }
