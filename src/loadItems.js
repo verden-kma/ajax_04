@@ -25,12 +25,12 @@ function loadItems(urlAddress, categoryName = "full list", cateroryID = -1) {
 			content.prepend(returnButton);
 			content.prepend($(`<h3 id="${cateroryID}" class="text-center categoryInfo">${categoryName}</h3>`))			
 		}
-	})
+	});
 }
 
 function addItem(block, name, imgSrc, description, price, specialPrice, id) {
-	let special_price;
-	let old_price;
+	let special_price = "";
+	let old_price = "";
 
 	if (specialPrice == null) {
 		specialPrice = "";
@@ -47,6 +47,7 @@ function addItem(block, name, imgSrc, description, price, specialPrice, id) {
         <a href="#" target="_self" class="item-name text-center clickable">
             ${name}
         </a>
+
         <div class="item-info">
             <span class="${special_price} item-info-entity">
 		${specialPrice} 
@@ -58,6 +59,7 @@ function addItem(block, name, imgSrc, description, price, specialPrice, id) {
                 add
             </button>
         </div>
+
     </div>
 	`
     );

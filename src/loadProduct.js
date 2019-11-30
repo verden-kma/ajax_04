@@ -4,14 +4,15 @@ function loadProduct(url, categoryName, categoryID) {
 		mathod: "GET",
 		cache: false,
 		url: url,
-		success: (prodData) => {load(prodData.id, prodData.name, prodData.description, prodData.image_url,
-		 prodData.price, prodData.specialPrice, categoryName, categoryID)}
+		success: (prodData) => {
+			load(prodData.id, prodData.name, prodData.description, prodData.image_url,
+		 prodData.price, prodData.special_price, categoryName, categoryID)}
 	});
 }
 
 function load(id, name, description, imgSrc, price, specialPrice, categoryName, categoryID) {
-	let special_price;
-	let old_price;
+	let special_price = "";
+	let old_price = "";
 
 	if (specialPrice == null) {
 		specialPrice = "";
@@ -24,7 +25,7 @@ function load(id, name, description, imgSrc, price, specialPrice, categoryName, 
 
 	let content = $("#content");
 	content.empty();
-	content.append(							//STYLE ATTRIBUTE USED HERE!!!!!!!!!!
+	content.append(							//STYLE ATTRIBUTE USED HERE!!!!!!!!!! (override default class style)
                 $(`<a class="category-return" href="#"><h4 id="${categoryID}" class="reopen-category navigation">${categoryName}</h4></a>
                 	<h3 class="item-name text-center">${name}</h3>
                 	<div class="container-fluid category" >
