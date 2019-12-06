@@ -149,6 +149,10 @@ button.buy-btn:hover {
     cursor: pointer;
 }
 
+.close {
+    transform: rotate(45deg);
+}
+
 .cart-header {
     text-decoration: underline;
 }
