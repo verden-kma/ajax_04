@@ -2,9 +2,7 @@ import {loadProduct} from "./loadProduct"
 import {loadItems} from "./loadItems"
 
 function init() {
-    // alert("init started");
         $("#cart-btn").click(function() {
-            console.log('Opening of cart');
         $(".bg-modal")[0].style.display = 'flex';
         document.body.style.overflow = 'hidden';
     });
@@ -58,8 +56,6 @@ if (ordered == "") {
     return;
 }
 
-console.log(outData);
-
     $.ajax({
         type: "POST",
         cache: false,
@@ -74,7 +70,6 @@ console.log(outData);
                 alert(errorMsg);
             }
             else alert("Thank you!");
-            console.log(response)
     },
         error: () => alert("Error has occured!")
     });
@@ -111,8 +106,6 @@ function addProduct(name, price, imgSrc, id) {
     </div>
 `
     products.append(newProd);
-    // newProd.getElementsByClassName('delete-btn')[0].addEventListener('click', (event) => { console.log("from addProduct"); removeProd(event)});
-    // newProd.getElementsByClassName('quantity')[0].addEventListener('change', validateQuantity);
     $(newProd).find('.quantity').on('change', validateQuantity);
 }
 
@@ -133,15 +126,12 @@ function addToCart(event) {
 }
 
 function removeProd(event) {
-    console.log("removeProd");
     event.target.parentElement.parentElement.parentElement.remove();
     updateTotal();
 }
 
 function openProduct(event) {
-    console.log("openProduct");
     let categoryInfo = $(".categoryInfo");
-    console.log(categoryInfo[0].innerText, categoryInfo[0].id)
     loadProduct(`https://nit.tron.net.ua/api/product/${event.target.parentElement.id}`, categoryInfo[0].innerText, categoryInfo[0].id)
 }
 
@@ -151,7 +141,6 @@ function reopenCategory(event) {
         loadItems("https://nit.tron.net.ua/api/product/list");
     }
     else {
-        console.log(`https://nit.tron.net.ua/api/product/list/category/${category.id}`)
         loadItems(`https://nit.tron.net.ua/api/product/list/category/${category.id}`, category.innerText, category.id);
     }
 }

@@ -1,5 +1,5 @@
 import './scss/main.scss';
-//import 'bootstrap';
+//import 'bootstrap'; github requires cdn in best case
 //import $ from 'jquery';
 window.$ = window.jQuery = $;
 
@@ -8,7 +8,6 @@ import {interaction} from "./interaction";
 
 
 $(document).ready(() => { 
-    console.log("launched");
     loadMain();  
     interaction();
 });
